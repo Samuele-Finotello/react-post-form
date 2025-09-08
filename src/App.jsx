@@ -3,13 +3,16 @@ import axios from "axios"
 
 function App() {
 
-  const [posts, setPosts] = useState([])
+  const [formData, setFormData] = useState({
+    author: '',
+    title: '',
+    body: '',
+    update: false
+  })
 
-  const fetchPosts = () => {
-    axios.get('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts').then((resp) => {
-      setPosts(resp.data)
-      console.log(resp.data)
-    })
+  const handleChange = (e) => {
+    console.log(e.target)
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
@@ -18,29 +21,28 @@ function App() {
         <div className="col-12">
           <form>
             <div className="fs-5">
-              <input type="text" name="author" className="form-control fs-4" placeholder="Inserisci autore" />
-              <input type="text" name="title" className="form-control fs-4" placeholder="Inserisci titolo" />
-              <input type="text" name="body" className="form-control fs-4" placeholder="Inserisci testo del post" />
+              <input type="text" name="author" className="form-control fs-4" placeholder="Inserisci autore" value={formData.author} onChange={handleChange} />
+              <input type="text" name="title" className="form-control fs-4" placeholder="Inserisci titolo" value={formData.title} onChange={handleChange} />
+              <input type="text" name="body" className="form-control fs-4" placeholder="Inserisci descrizione" value={formData.body} onChange={handleChange} />
             </div>
-            <div>
+            <div className="mt-3">
               <label className="fs-4">Vuoi pubblicarlo?</label>
             </div>
-            <div className="form-check fs-4">
-              <input type="radio" name="radioDefault" />
-              <label className="ms-2">
-                Si
-              </label>
-            </div>
-            <div className="form-check fs-4">
-              <input type="radio" name="radioDefault" />
-              <label className="ms-2">
-                No
+            <div className="form-check my-3 fs-5">
+              <input className="form-check-input" type="checkbox" value={formData.update} />
+              <label className="form-check-label">
+                Pubblica
               </label>
             </div>
           </form>
         </div>
-        <div className="col-12">
-          <button className="btn btn-primary" onClick={() => { alert('Post caricato') }}>Carica post</button>
+        <div className="card mt-5 fs-5">
+          <p>Autore: {formData.author}</p>
+          <p>Titolo: {formData.title}</p>
+          <p>Descrizione: {formData.body}</p>
+        </div>
+        <div className="col-12 mt-3">
+          <button className="btn btn-primary fs-5" onClick={() => { alert('Post caricato') }}>Carica post</button>
         </div>
       </div>
     </div>
