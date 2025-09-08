@@ -11,8 +11,8 @@ function App() {
   })
 
   const handleChange = (e) => {
-    console.log(e.target)
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    const newFormData = { ...formData, [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value }
+    setFormData(newFormData)
   }
 
   return (
@@ -21,15 +21,15 @@ function App() {
         <div className="col-12">
           <form>
             <div className="fs-5">
-              <input type="text" name="author" className="form-control fs-4" placeholder="Inserisci autore" value={formData.author} onChange={handleChange} />
-              <input type="text" name="title" className="form-control fs-4" placeholder="Inserisci titolo" value={formData.title} onChange={handleChange} />
-              <input type="text" name="body" className="form-control fs-4" placeholder="Inserisci descrizione" value={formData.body} onChange={handleChange} />
+              <input type="text" name="author" className="form-control fs-4 mt-3" placeholder="Inserisci autore" value={formData.author} onChange={handleChange} />
+              <input type="text" name="title" className="form-control fs-4 mt-3" placeholder="Inserisci titolo" value={formData.title} onChange={handleChange} />
+              <input type="text" name="body" className="form-control fs-4 mt-3" placeholder="Inserisci descrizione" value={formData.body} onChange={handleChange} />
             </div>
             <div className="mt-3">
               <label className="fs-4">Vuoi pubblicarlo?</label>
             </div>
             <div className="form-check my-3 fs-5">
-              <input className="form-check-input" type="checkbox" value={formData.update} />
+              <input className="form-check-input" type="checkbox" name="update" value={formData.update} onChange={handleChange} />
               <label className="form-check-label">
                 Pubblica
               </label>
@@ -42,7 +42,7 @@ function App() {
           <p>Descrizione: {formData.body}</p>
         </div>
         <div className="col-12 mt-3">
-          <button className="btn btn-primary fs-5" onClick={() => { alert('Post caricato') }}>Carica post</button>
+          <button className="btn btn-primary fs-5" onClick={() => { formData.update === true ? alert('Post caricato') : alert('Bozza salvata') }}>Carica post</button>
         </div>
       </div>
     </div>
